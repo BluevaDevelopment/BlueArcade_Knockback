@@ -1,0 +1,12 @@
+name: Knockback
+id: knockback
+version: 1.0.0
+type: MICROGAME
+api-version: 1.0
+main: net.blueva.arcade.modules.knockback.KnockbackModule
+
+authors:
+  - Blueva
+  - Whiron
+
+description: "Launch opponents into the void!"
