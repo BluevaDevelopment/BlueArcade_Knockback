@@ -34,6 +34,12 @@ vote_menu:
     - "<white>{votes}</white> <gray>votes.</gray>"
 
 stats:
+
+  descriptions:
+    wins: "Knockback wins"
+    games_played: "Knockback games played"
+    knockback_hits: "Hits landed with knockback weapons"
+    knockback_kills: "Players knocked into the void"
   labels:
     knockback_hits: "Knockback hits"
     knockback_kills: "Knockback eliminations"

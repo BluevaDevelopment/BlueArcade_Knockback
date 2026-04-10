@@ -50,7 +50,7 @@ public class KnockbackModule implements GameModule<Player, Location, World, Mate
         VoteMenuAPI voteMenu = ModuleAPI.getVoteMenuAPI();
         AchievementsAPI achievementsAPI = ModuleAPI.getAchievementsAPI();
 
-        statsService = new KnockbackStatsService(statsAPI, moduleInfo);
+        statsService = new KnockbackStatsService(statsAPI, moduleInfo, moduleConfig);
         statsService.registerStats();
 
         moduleConfig.register("language.yml", 1);

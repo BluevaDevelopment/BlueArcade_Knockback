@@ -104,7 +104,7 @@ public class KnockbackGameManager {
 
         for (Player player : context.getPlayers()) {
             player.setGameMode(GameMode.SURVIVAL);
-            loadoutService.giveKnockbackStick(player);
+            loadoutService.giveKnockbackStick(player, context.getItemAPI());
             loadoutService.giveStartingItems(player);
             loadoutService.applyStartingEffects(player);
             loadoutService.applyRespawnEffects(player);
@@ -252,6 +252,11 @@ public class KnockbackGameManager {
             return;
         }
 
+        // Don't process fall for spectators
+        if (context.getSpectators().contains(player)) {
+            return;
+        }
+
         Location deathLocation = player.getLocation();
 
         UUID playerId = player.getUniqueId();
@@ -285,7 +290,7 @@ public class KnockbackGameManager {
                         }
                         context.respawnPlayer(player);
                         player.setGameMode(GameMode.SURVIVAL);
-                        loadoutService.giveKnockbackStick(player);
+                        loadoutService.giveKnockbackStick(player, context.getItemAPI());
                         loadoutService.giveStartingItems(player);
                         loadoutService.applyStartingEffects(player);
                         loadoutService.applyRespawnEffects(player);

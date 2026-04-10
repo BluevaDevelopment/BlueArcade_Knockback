@@ -1,6 +1,7 @@
 package net.blueva.arcade.modules.knockback.support;
 
 import net.blueva.arcade.api.config.ModuleConfigAPI;
+import net.blueva.arcade.api.ui.ItemAPI;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -49,7 +50,7 @@ public class KnockbackLoadoutService {
         }
     }
 
-    public void giveKnockbackStick(Player player) {
+    public void giveKnockbackStick(Player player, ItemAPI<Player, ItemStack, Material> itemAPI) {
         String materialName = moduleConfig.getString("items.knockback_stick.material");
         int amount = moduleConfig.getInt("items.knockback_stick.amount", 1);
         int slot = moduleConfig.getInt("items.knockback_stick.slot", 0);
@@ -69,18 +70,26 @@ public class KnockbackLoadoutService {
             meta.addEnchant(Enchantment.KNOCKBACK, Math.max(1, knockbackLevel), true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             meta.setUnbreakable(unbreakable);
-
-            String name = moduleConfig.getString("items.knockback_stick.name");
-            if (name != null && !name.isEmpty()) {
-                meta.setDisplayName(name);
-            }
-
-            List<String> lore = moduleConfig.getStringList("items.knockback_stick.lore");
-            if (lore != null && !lore.isEmpty()) {
-                meta.setLore(lore);
-            }
-
             stick.setItemMeta(meta);
+        }
+
+        String name = moduleConfig.getString("items.knockback_stick.name");
+        List<String> lore = moduleConfig.getStringList("items.knockback_stick.lore");
+
+        if (itemAPI != null) {
+            stick = itemAPI.decorate(stick, name, lore);
+        } else {
+            // Fallback if ItemAPI is unavailable
+            ItemMeta fallbackMeta = stick.getItemMeta();
+            if (fallbackMeta != null) {
+                if (name != null && !name.isEmpty()) {
+                    fallbackMeta.setDisplayName(name);
+                }
+                if (lore != null && !lore.isEmpty()) {
+                    fallbackMeta.setLore(lore);
+                }
+                stick.setItemMeta(fallbackMeta);
+            }
         }
 
         if (slot >= 0 && slot < 36) {
